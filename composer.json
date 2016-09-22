@@ -1,0 +1,26 @@
+{
+    "name": "reddogs-at/reddogs-doctrine-migrations",
+    "description": "Module specific doctrine migrations",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^5.5 || ^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.5",
+        "doctrine/common": "^2.6",
+        "doctrine/orm": "^2.5",
+        "reddogs-at/reddogs-test": "^0.1.0",
+        "container-interop/container-interop": "^1.1"
+    },
+    "autoload": {
+      "psr-4": {
+        "Reddogs\\Doctrine\\Migrations\\": "src/"
+      }
+    },
+    "autoload-dev": {
+      "psr-4": {
+        "ReddogsTest\\Doctrine\\Migrations\\": "test/"
+      }
+    }
+}
