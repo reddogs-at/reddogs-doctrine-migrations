@@ -6,17 +6,25 @@ use Symfony\Component\Console\Application;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand as MigrationsCommand;
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use ZF\Console\Route;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Zend\Console\Adapter\AdapterInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputInterface;
 
 class AbstractCommandTest extends \PHPUnit_Framework_TestCase
 {
 
-    private $command, $application, $migrationsCommand, $configuration, $migrationsConfig;
+    private $command, $application, $migrationsCommand, $configuration, $migrationsConfig, $input, $output;
 
     protected function setUp()
     {
-        $this->application = $this->getMockBuilder(Application::class)->getMock();
+        $this->application = $this->getMockBuilder(Application::class)
+            ->setMethods(['add', 'run'])
+            ->getMock();
         $this->migrationsCommand = $this->getMockBuilder(MigrationsCommand::class)
             ->disableOriginalConstructor()
+            ->setMethods(['setMigrationConfiguration'])
             ->getMockForAbstractClass();
         $this->configuration = $this->getMockBuilder(Configuration::class)
             ->disableOriginalConstructor()
@@ -25,6 +33,12 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
                 'registerMigrationsFromDirectory'
             ])
             ->getMock();
+
+        $this->input = $this->getMockBuilder(InputInterface::class)
+                            ->setMethods(['setOption'])
+                            ->getMockForAbstractClass();
+        $this->output = $this->createMock(OutputInterface::class);
+
         $this->migrationsConfig = [
             'testKey' => [
                 'namespace' => 'TestNamespace',
@@ -33,12 +47,17 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $this->command = $this->getMockForAbstractClass(AbstractCommand::class, [
-            $this->application,
-            $this->migrationsCommand,
-            $this->configuration,
-            $this->migrationsConfig,
-        ]);
+        $this->command = $this->getMockBuilder(AbstractCommand::class)
+                              ->setMethods(['getInputCommand'])
+                              ->setConstructorArgs([
+                                    $this->application,
+                                    $this->migrationsCommand,
+                                    $this->configuration,
+                                    $this->input,
+                                    $this->output,
+                                    $this->migrationsConfig,
+                              ])->getMockForAbstractClass();
+
     }
 
     public function testGetApplication()
@@ -54,6 +73,16 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
     public function testGetConfiguration()
     {
         $this->assertSame($this->configuration, $this->command->getConfiguration());
+    }
+
+    public function testGetInput()
+    {
+        $this->assertSame($this->input, $this->command->getInput());
+    }
+
+    public function testGetOutput()
+    {
+        $this->assertSame($this->output, $this->command->getOutput());
     }
 
     public function testGetMigrationsConfig()
@@ -76,8 +105,31 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
                             ->method('registerMigrationsFromDirectory')
                             ->with($this->equalTo('path/to/migrations'));
 
+        $this->migrationsCommand->expects($this->once())
+                                ->method('setMigrationConfiguration')
+                                ->with($this->equalTo($this->configuration));
+
+        $this->application->expects($this->once())
+                          ->method('add')
+                          ->with($this->identicalTo($this->migrationsCommand));
+        $this->application->expects($this->once())
+                          ->method('run')
+                          ->with($this->identicalTo($this->input),
+                                 $this->identicalTo($this->output));
+
+        $this->command->expects($this->once())
+                      ->method('getInputCommand')
+                      ->will($this->returnValue('testInputCommand'));
+
+        $this->input->expects($this->once())
+                    ->method('setOption')
+                    ->with($this->equalTo('command'),
+                           $this->equalTo('testInputCommand'));
+
         $route = new Route('mogrations:test', 'mogrations:testroute <moduleName>');
         $route->match(['mogrations:testroute', 'testKey']);
-        $this->command->__invoke($route);
+
+        $console = $this->createMock(AdapterInterface::class);
+        $this->command->__invoke($route, $console);
     }
 }
