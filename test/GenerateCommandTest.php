@@ -2,8 +2,6 @@
 
 namespace Reddogs\Doctrine\Migrations;
 
-use Symfony\Component\Console\Application;
-
 class GenerateCommandTest extends \PHPUnit_Framework_TestCase
 {
     private $command;

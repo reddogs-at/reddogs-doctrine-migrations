@@ -6,8 +6,6 @@ use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand as Migrations
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use ZF\Console\Route;
 use Zend\Console\Adapter\AdapterInterface;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
 
