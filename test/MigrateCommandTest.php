@@ -3,6 +3,7 @@
 namespace ReddogsTest\Doctrine\Migrations;
 
 use Reddogs\Doctrine\Migrations\MigrateCommand;
+use ZF\Console\Route;
 
 class MigrateCommandTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,6 +19,7 @@ class MigrateCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testGetInputCommand()
     {
-        $this->assertSame('migrations:migrate', $this->command->getInputCommand());
+        $route = new Route('testname', 'testroute');
+        $this->assertSame('migrations:migrate', $this->command->getInputCommand($route));
     }
 }

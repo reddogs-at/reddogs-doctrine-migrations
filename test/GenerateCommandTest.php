@@ -2,6 +2,8 @@
 
 namespace Reddogs\Doctrine\Migrations;
 
+use ZF\Console\Route;
+
 class GenerateCommandTest extends \PHPUnit_Framework_TestCase
 {
     private $command;
@@ -16,6 +18,7 @@ class GenerateCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testGetInputCommand()
     {
-        $this->assertSame('migrations:generate', $this->command->getInputCommand());
+        $route = new Route('testName', 'testRoute');
+        $this->assertSame('migrations:generate', $this->command->getInputCommand($route));
     }
 }

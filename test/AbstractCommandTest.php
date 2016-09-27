@@ -92,6 +92,7 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testInvoke()
     {
+        $route = new Route('mogrations:test', 'mogrations:testroute <moduleName>');
         $this->configuration->expects($this->once())
                             ->method('setMigrationsNamespace')
                             ->with($this->equalTo('TestNamespace'));
@@ -119,6 +120,7 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
 
         $this->command->expects($this->once())
                       ->method('getInputCommand')
+                      ->with($this->equalTo($route))
                       ->will($this->returnValue('testInputCommand'));
 
         $this->input->expects($this->once())
@@ -126,7 +128,6 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
                     ->with($this->equalTo('command'),
                            $this->equalTo('testInputCommand'));
 
-        $route = new Route('mogrations:test', 'mogrations:testroute <moduleName>');
         $route->match(['mogrations:testroute', 'testKey']);
 
         $console = $this->createMock(AdapterInterface::class);

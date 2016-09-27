@@ -92,7 +92,7 @@ abstract class AbstractCommand
         $application->add($migrationsCommand);
 
         $input = $this->getInput();
-        $input->setOption('command', $this->getInputCommand());
+        $input->setOption('command', $this->getInputCommand($route));
 
         $application->run($input, $this->getOutput());
 
@@ -100,10 +100,10 @@ abstract class AbstractCommand
 
     /**
      * Get input command
-     *
+     * @param Route $route
      * @return string
      */
-    abstract public function getInputCommand();
+    abstract public function getInputCommand(Route $route);
 
     /**
      * Get application
