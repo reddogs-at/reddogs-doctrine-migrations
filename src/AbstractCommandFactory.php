@@ -3,8 +3,14 @@ namespace Reddogs\Doctrine\Migrations;
 
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
+use Symfony\Component\Console\Application;
+use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand as AbstractMigrationsCommand;
+use Doctrine\DBAL\Migrations\Configuration\Configuration;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
-class AbstractCommandFactory implements FactoryInterface
+abstract class AbstractCommandFactory implements FactoryInterface
 {
 
     /**
@@ -24,7 +30,16 @@ class AbstractCommandFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $commandClasss = $this->getCommandClass();
+        $commandClass = $this->getCommandClass();
+        $config = $container->get('config');
+        return new $commandClass(
+            new Application(),
+            $this->getMigrationsCommand(),
+            new Configuration($container->get(EntityManager::class)->getConnection()),
+            new ArrayInput([]),
+            new ConsoleOutput(),
+            $config['doctrine']['reddogs_doctrine_migrations']
+        );
     }
 
     /**
@@ -36,4 +51,11 @@ class AbstractCommandFactory implements FactoryInterface
     {
         return $this->commandClass;
     }
+
+    /**
+     * Get migrations command
+     * @return AbstractMigrationsCommand
+     */
+    abstract public function getMigrationsCommand();
+
 }
