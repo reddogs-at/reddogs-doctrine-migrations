@@ -18,4 +18,9 @@ class GenerateCommandFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame(GenerateCommand::class, $this->factory->getCommandClass());
     }
+
+    public function testGetMigrationsCommand()
+    {
+        $this->assertInstanceOf(GenerateCommand::class, $this->factory->getMigrationsCommand());
+    }
 }

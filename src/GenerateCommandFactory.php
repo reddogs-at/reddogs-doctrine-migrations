@@ -2,32 +2,33 @@
 
 namespace Reddogs\Doctrine\Migrations;
 
-use Zend\ServiceManager\Factory\FactoryInterface;
-use Interop\Container\ContainerInterface;
-use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand;
 
-class GenerateCommandFactory implements FactoryInterface
+class GenerateCommandFactory extends AbstractCommandFactory
 {
+    /**
+     * Command class
+     * @var string
+     */
     protected $commandClass = GenerateCommand::class;
 
     /**
-     * Create generate command
-     * {@inheritDoc}
-     * @see \Zend\ServiceManager\Factory\FactoryInterface::__invoke()
-     * @return GenerateCommand
+     * Get command class
+     *
+     * @return string
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
-        $config = $container->get('config');
-        return new GenerateCommand($container->get(
-            EntityManager::class),
-            $config['doctrine']['reddogs_doctrine_migrations']
-        );
-    }
-
     public function getCommandClass()
     {
         return $this->commandClass;
+    }
+
+    /**
+     * Get migrations command
+     *
+     * @return \Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand
+     */
+    public function getMigrationsCommand()
+    {
+        return new GenerateCommand();
     }
 }
