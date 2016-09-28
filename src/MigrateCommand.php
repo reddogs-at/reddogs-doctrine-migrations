@@ -16,6 +16,8 @@ class MigrateCommand extends AbstractCommand
         '--write-sql',
         '--query-time',
         '--no-interaction',
+        '--quiet',
+        '-q',
         '-n',
         '--verbose',
         '-v',

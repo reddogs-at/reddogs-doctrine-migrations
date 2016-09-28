@@ -31,33 +31,9 @@ class MigrateCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->route->match([
             'mogrations:migrate', 'testModuleName', '--version=testVersion', '--dry-run', '--write-sql',
-            '--query-time', '-n', '--verbose'
+            '--query-time', '-n', '-q', '--verbose'
         ]);
-        $expected = 'migrations:migrate --dry-run --write-sql --query-time -n --verbose testVersion';
+        $expected = 'migrations:migrate --dry-run --write-sql --query-time -q -n --verbose testVersion';
         $this->assertEquals($expected, $this->command->getInputCommand($this->route));
-    }
-
-    public function testGetInputCommandVerboseNormal()
-    {
-        $this->route->match([
-            'mogrations:migrate', 'testModuleName', '-v'
-        ]);
-        $this->assertEquals('migrations:migrate -v', $this->command->getInputcommand($this->route));
-    }
-
-    public function testGetInputCommandVerboseMore()
-    {
-        $this->route->match([
-            'mogrations:migrate', 'testModuleName', '-vv'
-        ]);
-        $this->assertEquals('migrations:migrate -vv', $this->command->getInputcommand($this->route));
-    }
-
-    public function testGetInputCommandVerboseDebug()
-    {
-        $this->route->match([
-            'mogrations:migrate', 'testModuleName', '-vvv'
-        ]);
-        $this->assertEquals('migrations:migrate -vvv', $this->command->getInputcommand($this->route));
     }
 }
