@@ -3,7 +3,8 @@
 namespace ReddogsTest\Doctrine\Migrations;
 
 use Reddogs\Doctrine\Migrations\GenerateCommandFactory;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand;
+use Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand as MigrationsGenerateCommand;
+use Reddogs\Doctrine\Migrations\GenerateCommand;
 
 class GenerateCommandFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,6 +22,6 @@ class GenerateCommandFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMigrationsCommand()
     {
-        $this->assertInstanceOf(GenerateCommand::class, $this->factory->getMigrationsCommand());
+        $this->assertInstanceOf(MigrationsGenerateCommand::class, $this->factory->getMigrationsCommand());
     }
 }

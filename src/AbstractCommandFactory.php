@@ -18,7 +18,7 @@ abstract class AbstractCommandFactory implements FactoryInterface
      *
      * @var string
      */
-    private $commandClass;
+    protected $commandClass;
 
     /**
      * Get command
