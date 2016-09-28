@@ -11,7 +11,7 @@ class GenerateCommand extends AbstractCommand
      *
      * @var array
      */
-    private $booleanParams = [
+    protected $booleanParams = [
         '--quiet',
         '-q',
         '-n',
@@ -33,11 +33,7 @@ class GenerateCommand extends AbstractCommand
 
         if (is_array($matches)) {
             $params = [];
-            foreach ($this->booleanParams as $booleanParam) {
-                if (true === $matches[ltrim($booleanParam, '-')]) {
-                    $params[] = $booleanParam;
-                }
-            }
+            $params = $this->applyBooleanParams($params, $matches);
             if (! empty($params)) {
                 $inputCommand .= ' ' . implode(' ', $params);
             }

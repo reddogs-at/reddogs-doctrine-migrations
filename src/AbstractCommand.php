@@ -59,10 +59,8 @@ abstract class AbstractCommand
      * @param Application $application
      * @param MigrationsCommand $migrationsCommand
      */
-    public function __construct(
-        Application $application, MigrationsCommand $migrationsCommand, Configuration $configuration,
-                    InputInterface $input, OutputInterface $output, array $migrationsConfig
-    ) {
+    public function __construct(Application $application, MigrationsCommand $migrationsCommand, Configuration $configuration, InputInterface $input, OutputInterface $output, array $migrationsConfig)
+    {
         $this->application = $application;
         $this->migrationsCommand = $migrationsCommand;
         $this->configuration = $configuration;
@@ -70,7 +68,6 @@ abstract class AbstractCommand
         $this->output = $output;
         $this->migrationsConfig = $migrationsConfig;
     }
-
 
     public function __invoke(Route $route, AdapterInterface $console)
     {
@@ -95,15 +92,32 @@ abstract class AbstractCommand
         $input->setOption('command', $this->getInputCommand($route));
 
         $application->run($input, $this->getOutput());
-
     }
 
     /**
      * Get input command
+     *
      * @param Route $route
      * @return string
      */
     abstract public function getInputCommand(Route $route);
+
+    /**
+     * Apply boolean params
+     *
+     * @param array $params
+     * @param array $matches
+     * @return array
+     */
+    protected function applyBooleanParams(array $params, array $matches)
+    {
+        foreach ($this->booleanParams as $booleanParam) {
+            if (true === $matches[ltrim($booleanParam, '-')]) {
+                $params[] = $booleanParam;
+            }
+        }
+        return $params;
+    }
 
     /**
      * Get application
@@ -164,5 +178,4 @@ abstract class AbstractCommand
     {
         return $this->output;
     }
-
 }

@@ -11,7 +11,7 @@ class MigrateCommand extends AbstractCommand
      *
      * @var array
      */
-    private $booleanParams = [
+    protected $booleanParams = [
         '--dry-run',
         '--write-sql',
         '--query-time',
@@ -39,11 +39,7 @@ class MigrateCommand extends AbstractCommand
 
         if (is_array($matches)) {
             $params = [];
-            foreach ($this->booleanParams as $booleanParam) {
-                if (true === $matches[ltrim($booleanParam, '-')]) {
-                    $params[] = $booleanParam;
-                }
-            }
+            $params = $this->applyBooleanParams($params, $matches);
             if (isset($matches['version'])) {
                 $params[] = $matches['version'];
             }
