@@ -22,8 +22,8 @@ class ExecuteCommand extends AbstractCommand
      * @var array
      */
     protected $booleanParams = [
-        '--write-sql',
         '--dry-run',
+        '--write-sql',
         '--up',
         '--down',
         '--query-time',

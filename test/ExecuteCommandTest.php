@@ -4,6 +4,7 @@ namespace ReddogsTest\Doctrine\Migrations;
 
 use Reddogs\Doctrine\Migrations\ModuleConfig;
 use ZF\Console\Route;
+use Reddogs\Doctrine\Migrations\ExecuteCommand;
 
 class ExecuteCommandTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +12,7 @@ class ExecuteCommandTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->command = $this->getMockBuilder(\ExecuteCommand::class)
+        $this->command = $this->getMockBuilder(ExecuteCommand::class)
             ->disableOriginalConstructor()
             ->setMethods(['null'])
             ->getMock();
@@ -28,12 +29,11 @@ class ExecuteCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testGetInputCommandWithParams()
     {
-        $this->markTestIncomplete();
         $this->route->match([
             'mogrations:execute', 'testModuleName', '--version=testVersion', '--dry-run', '--write-sql',
             '--query-time', '-n', '-q', '--verbose'
         ]);
-        $expected = 'migrations:execute --dry-run --write-sql --query-time -q -n --verbose testVersion';
+        $expected = 'migrations:execute --dry-run --write-sql --query-time -n -q --verbose testVersion';
         $this->assertEquals($expected, $this->command->getInputCommand($this->route));
     }
 }
