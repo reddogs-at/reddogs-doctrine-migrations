@@ -28,6 +28,10 @@ class ModuleConfig
                     'short_description' => 'test route',
                     'handler' => GenerateCommand::class,
                 ],
+                'mogrations:latest' => [
+                    'name' => 'mogrations:latest',
+                    'route' => 'mogrations:latest <moduleName>'
+                ]
             ],
         ];
     }
