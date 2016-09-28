@@ -1,9 +1,19 @@
 <?php
 namespace Reddogs\Doctrine\Migrations;
 
+/**
+ * Reddogs (https://github.com/reddogs-at)
+ *
+ * @see https://github.com/reddogs-at/reddogs-doctrine-migrations for the canonical source repository
+ * @license https://github.com/reddogs-at/reddogs-doctrine-migrations/blob/master/LICENSE MIT License
+ */
+use Reddogs\Doctrine\Migrations\AbstractCommand;
 use ZF\Console\Route;
 
-class MigrateCommand extends AbstractCommand
+/**
+ * Execute Command
+ */
+class ExecuteCommand extends AbstractCommand
 {
 
     /**
@@ -12,8 +22,10 @@ class MigrateCommand extends AbstractCommand
      * @var array
      */
     protected $booleanParams = [
-        '--dry-run',
         '--write-sql',
+        '--dry-run',
+        '--up',
+        '--down',
         '--query-time',
         '--no-interaction',
         '-n',
@@ -35,7 +47,7 @@ class MigrateCommand extends AbstractCommand
     public function getInputCommand(Route $route)
     {
         $matches = $route->getMatches();
-        $inputCommand = 'migrations:migrate';
+        $inputCommand = 'migrations:execute';
 
         if (is_array($matches)) {
             $params = [];

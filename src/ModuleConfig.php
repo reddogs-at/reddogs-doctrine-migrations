@@ -8,6 +8,11 @@ class ModuleConfig
     {
         return [
             'console_routes' => [
+                'mogrations:execute' => [
+                    'name' => 'mogrations:execute',
+                    'route' => 'mogrations:execute <moduleName> [--version=] [--write-sql] [--dry-run] [--up] [--down] [--query-time] ' .
+                               '[--quiet|-q] [--no-interaction|-n] [--verbose|-v|-vv|-vvv]',
+                ],
                 'mogrations:generate' =>  [
                     'name' => 'mogrations:generate',
                     'route' => 'mogrations:generate <moduleName> [--quiet|-q] [--no-interaction|-n] [--verbose|-v|-vv|-vvv]',
