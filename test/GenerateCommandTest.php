@@ -6,7 +6,7 @@ use ZF\Console\Route;
 
 class GenerateCommandTest extends \PHPUnit_Framework_TestCase
 {
-    private $command;
+    private $command, $route;
 
     protected function setUp()
     {
@@ -14,11 +14,19 @@ class GenerateCommandTest extends \PHPUnit_Framework_TestCase
                               ->disableOriginalConstructor()
                               ->setMethods(['null'])
                               ->getMock();
+        $moduleConfig = (new ModuleConfig())->__invoke();
+        $migrateParams = $moduleConfig['console_routes']['mogrations:generate'];
+        $this->route = new Route($migrateParams['name'], $migrateParams['route']);
     }
 
     public function testGetInputCommand()
     {
-        $route = new Route('testName', 'testRoute');
-        $this->assertSame('migrations:generate', $this->command->getInputCommand($route));
+        $this->assertSame('migrations:generate', $this->command->getInputCommand($this->route));
+    }
+
+    public function testGetInputCommandWithParams()
+    {
+        $this->route->match(['mogrations:generate', 'testModuleName', '-q', '-n', '-v']);
+        $this->assertEquals('migrations:generate -q -n -v', $this->command->getInputCommand($this->route));
     }
 }

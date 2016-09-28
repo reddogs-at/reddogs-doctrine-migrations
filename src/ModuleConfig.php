@@ -10,7 +10,7 @@ class ModuleConfig
             'console_routes' => [
                 'mogrations:generate' =>  [
                     'name' => 'mogrations:generate',
-                    'route' => 'mogrations:generate <moduleName>',
+                    'route' => 'mogrations:generate <moduleName> [--quiet|-q] [--no-interaction|-n] [--verbose|-v|-vv|-vvv]',
                     'description' => 'test route for testing purposes',
                     'short_description' => 'test route',
                     'handler' => GenerateCommand::class,
