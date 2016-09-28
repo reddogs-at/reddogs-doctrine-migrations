@@ -31,7 +31,11 @@ class ModuleConfig
                 'mogrations:latest' => [
                     'name' => 'mogrations:latest',
                     'route' => 'mogrations:latest <moduleName>'
-                ]
+                ],
+                'mogrations:status' => [
+                    'name' => 'mogrations:status',
+                    'route' => 'mogrations:status <moduleName>'
+                ],
             ],
         ];
     }

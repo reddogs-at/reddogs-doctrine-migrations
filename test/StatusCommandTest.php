@@ -2,27 +2,27 @@
 
 namespace ReddogsTest\Doctrine\Migrations;
 
-use Reddogs\Doctrine\Migrations\LatestCommand;
 use Reddogs\Doctrine\Migrations\ModuleConfig;
 use ZF\Console\Route;
+use Reddogs\Doctrine\Migrations\StatusCommand;
 
-class LatestCommandTest extends \PHPUnit_Framework_TestCase
+class StatusCommandTest extends \PHPUnit_Framework_TestCase
 {
     private $command, $route;
 
     protected function setUp()
     {
-        $this->command = $this->getMockBuilder(LatestCommand::class)
+        $this->command = $this->getMockBuilder(StatusCommand::class)
                               ->disableOriginalConstructor()
                               ->setMethods(['null'])
                               ->getMock();
         $moduleConfig = (new ModuleConfig())->__invoke();
-        $migrateParams = $moduleConfig['console_routes']['mogrations:latest'];
+        $migrateParams = $moduleConfig['console_routes']['mogrations:status'];
         $this->route = new Route($migrateParams['name'], $migrateParams['route']);
     }
 
     public function testGetInputCommand()
     {
-        $this->assertSame('migrations:latest', $this->command->getInputCommand($this->route));
+        $this->assertSame('migrations:status', $this->command->getInputCommand($this->route));
     }
 }
