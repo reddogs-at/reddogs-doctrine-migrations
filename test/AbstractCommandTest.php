@@ -6,16 +6,14 @@ use Symfony\Component\Console\Application;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand as MigrationsCommand;
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use ZF\Console\Route;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
 use Zend\Console\Adapter\AdapterInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class AbstractCommandTest extends \PHPUnit_Framework_TestCase
 {
 
-    private $command, $application, $migrationsCommand, $configuration, $migrationsConfig, $input, $output;
+    private $command, $application, $migrationsCommand, $configuration, $migrationsConfig, $output;
 
     protected function setUp()
     {
@@ -34,9 +32,6 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
             ])
             ->getMock();
 
-        $this->input = $this->getMockBuilder(InputInterface::class)
-                            ->setMethods(['setOption'])
-                            ->getMockForAbstractClass();
         $this->output = $this->createMock(OutputInterface::class);
 
         $this->migrationsConfig = [
@@ -53,7 +48,6 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
                                     $this->application,
                                     $this->migrationsCommand,
                                     $this->configuration,
-                                    $this->input,
                                     $this->output,
                                     $this->migrationsConfig,
                               ])->getMockForAbstractClass();
@@ -73,11 +67,6 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
     public function testGetConfiguration()
     {
         $this->assertSame($this->configuration, $this->command->getConfiguration());
-    }
-
-    public function testGetInput()
-    {
-        $this->assertSame($this->input, $this->command->getInput());
     }
 
     public function testGetOutput()
@@ -115,18 +104,13 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
                           ->with($this->identicalTo($this->migrationsCommand));
         $this->application->expects($this->once())
                           ->method('run')
-                          ->with($this->identicalTo($this->input),
+                          ->with($this->isInstanceOf(ArrayInput::class),
                                  $this->identicalTo($this->output));
 
         $this->command->expects($this->once())
                       ->method('getInputCommand')
                       ->with($this->equalTo($route))
                       ->will($this->returnValue('testInputCommand'));
-
-        $this->input->expects($this->once())
-                    ->method('setOption')
-                    ->with($this->equalTo('command'),
-                           $this->equalTo('testInputCommand'));
 
         $route->match(['mogrations:testroute', 'testKey']);
 

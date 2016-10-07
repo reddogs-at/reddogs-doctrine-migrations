@@ -8,6 +8,7 @@ use ZF\Console\Route;
 use Zend\Console\Adapter\AdapterInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\ArrayInput;
 
 abstract class AbstractCommand
 {
@@ -34,13 +35,6 @@ abstract class AbstractCommand
     private $configuration;
 
     /**
-     * Input
-     *
-     * @var InputInterface
-     */
-    private $input;
-
-    /**
      * Output
      *
      * @var OutputInterface
@@ -55,16 +49,21 @@ abstract class AbstractCommand
     private $migrationsConfig;
 
     /**
+     * Constructor
      *
      * @param Application $application
      * @param MigrationsCommand $migrationsCommand
+     * @param Configuration $configuration
+     * @param OutputInterface $output
+     * @param array $migrationsConfig
      */
-    public function __construct(Application $application, MigrationsCommand $migrationsCommand, Configuration $configuration, InputInterface $input, OutputInterface $output, array $migrationsConfig)
+    public function __construct(
+        Application $application, MigrationsCommand $migrationsCommand, Configuration $configuration,
+        OutputInterface $output, array $migrationsConfig)
     {
         $this->application = $application;
         $this->migrationsCommand = $migrationsCommand;
         $this->configuration = $configuration;
-        $this->input = $input;
         $this->output = $output;
         $this->migrationsConfig = $migrationsConfig;
     }
@@ -88,8 +87,7 @@ abstract class AbstractCommand
         $application = $this->getApplication();
         $application->add($migrationsCommand);
 
-        $input = $this->getInput();
-        $input->setOption('command', $this->getInputCommand($route));
+        $input = new ArrayInput(['command' => $this->getInputCommand($route)]);
 
         $application->run($input, $this->getOutput());
     }
@@ -157,16 +155,6 @@ abstract class AbstractCommand
     public function getMigrationsConfig()
     {
         return $this->migrationsConfig;
-    }
-
-    /**
-     * Get input
-     *
-     * @return InputInterface
-     */
-    public function getInput()
-    {
-        return $this->input;
     }
 
     /**

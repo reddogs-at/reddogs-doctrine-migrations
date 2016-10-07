@@ -36,7 +36,6 @@ abstract class AbstractCommandFactory implements FactoryInterface
             new Application(),
             $this->getMigrationsCommand(),
             new Configuration($container->get(EntityManager::class)->getConnection()),
-            new ArrayInput([]),
             new ConsoleOutput(),
             $config['doctrine']['reddogs_doctrine_migrations']
         );
