@@ -9,6 +9,9 @@ namespace Reddogs\Doctrine\Migrations;
 
 use ZF\Console\Route;
 
+/**
+ * Command for generating new blank module migration classes
+ */
 class GenerateCommand extends AbstractCommand
 {
     /**

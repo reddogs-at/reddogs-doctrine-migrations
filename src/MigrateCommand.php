@@ -9,6 +9,9 @@ namespace Reddogs\Doctrine\Migrations;
 
 use ZF\Console\Route;
 
+/**
+ * Command for executing a module migration to a specified version or the latest available version.
+ */
 class MigrateCommand extends AbstractCommand
 {
 

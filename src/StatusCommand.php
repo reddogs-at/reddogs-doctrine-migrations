@@ -9,6 +9,9 @@ namespace Reddogs\Doctrine\Migrations;
 
 use ZF\Console\Route;
 
+/**
+ * Command to view the status of a set of module migrations.
+ */
 class StatusCommand extends AbstractCommand
 {
     /**

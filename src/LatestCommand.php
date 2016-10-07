@@ -9,6 +9,9 @@ namespace Reddogs\Doctrine\Migrations;
 
 use ZF\Console\Route;
 
+/**
+ * Outputs the latest module migrations version number
+ */
 class LatestCommand extends AbstractCommand
 {
     /**
