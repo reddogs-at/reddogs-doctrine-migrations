@@ -7,7 +7,6 @@ use Symfony\Component\Console\Application;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand as AbstractMigrationsCommand;
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 abstract class AbstractCommandFactory implements FactoryInterface
