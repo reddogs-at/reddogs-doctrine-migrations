@@ -13,7 +13,6 @@ use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use ZF\Console\Route;
 use Zend\Console\Adapter\AdapterInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 
 abstract class AbstractCommand
