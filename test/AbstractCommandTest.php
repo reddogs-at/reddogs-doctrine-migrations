@@ -8,7 +8,7 @@ use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use ZF\Console\Route;
 use Zend\Console\Adapter\AdapterInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\StringInput;
 
 class AbstractCommandTest extends \PHPUnit_Framework_TestCase
 {
@@ -104,7 +104,7 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
                           ->with($this->identicalTo($this->migrationsCommand));
         $this->application->expects($this->once())
                           ->method('run')
-                          ->with($this->isInstanceOf(ArrayInput::class),
+                          ->with($this->isInstanceOf(StringInput::class),
                                  $this->identicalTo($this->output));
 
         $this->command->expects($this->once())

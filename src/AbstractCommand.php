@@ -7,8 +7,7 @@ use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use ZF\Console\Route;
 use Zend\Console\Adapter\AdapterInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\StringInput;
 
 abstract class AbstractCommand
 {
@@ -87,7 +86,7 @@ abstract class AbstractCommand
         $application = $this->getApplication();
         $application->add($migrationsCommand);
 
-        $input = new ArrayInput(['command' => $this->getInputCommand($route)]);
+        $input = new StringInput($this->getInputCommand($route));
 
         $application->run($input, $this->getOutput());
     }
