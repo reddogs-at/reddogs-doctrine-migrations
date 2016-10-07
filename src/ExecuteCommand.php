@@ -1,17 +1,17 @@
 <?php
-namespace Reddogs\Doctrine\Migrations;
-
 /**
  * Reddogs (https://github.com/reddogs-at)
  *
  * @see https://github.com/reddogs-at/reddogs-doctrine-migrations for the canonical source repository
  * @license https://github.com/reddogs-at/reddogs-doctrine-migrations/blob/master/LICENSE MIT License
  */
+namespace Reddogs\Doctrine\Migrations;
+
 use Reddogs\Doctrine\Migrations\AbstractCommand;
 use ZF\Console\Route;
 
 /**
- * Execute Command
+ * Command for executing single module migrations up or down manually.
  */
 class ExecuteCommand extends AbstractCommand
 {
