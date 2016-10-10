@@ -15,15 +15,8 @@ use Doctrine\DBAL\Migrations\Configuration\Configuration;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-abstract class AbstractCommandFactory implements FactoryInterface
+class CommandFactory implements FactoryInterface
 {
-
-    /**
-     * Command class
-     *
-     * @var string
-     */
-    protected $commandClass;
 
     /**
      * Get command
@@ -35,11 +28,10 @@ abstract class AbstractCommandFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $commandClass = $this->getCommandClass();
         $config = $container->get('config');
-        return new $commandClass(
+        return new $requestedName(
             new Application(),
-            $this->getMigrationsCommand(),
+            $this->getMigrationsCommand($requestedName),
             new Configuration($container->get(EntityManager::class)->getConnection()),
             new ConsoleOutput(),
             $config['doctrine']['reddogs_doctrine_migrations']
@@ -47,19 +39,16 @@ abstract class AbstractCommandFactory implements FactoryInterface
     }
 
     /**
-     * Get command class
-     *
-     * @return string
-     */
-    public function getCommandClass()
-    {
-        return $this->commandClass;
-    }
-
-    /**
      * Get migrations command
+     *
+     * @param string $requestedName
      * @return AbstractMigrationsCommand
      */
-    abstract public function getMigrationsCommand();
+    public function getMigrationsCommand($requestedName)
+    {
+        $parts = explode('\\', $requestedName);
+        $class = 'Doctrine\\DBAL\\Migrations\\Tools\\Console\\Command\\' . array_pop($parts);
+        return new $class();
+    }
 
 }

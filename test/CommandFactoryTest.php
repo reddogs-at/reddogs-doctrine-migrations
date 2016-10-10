@@ -2,34 +2,34 @@
 
 namespace ReddogsTest\Doctrine\Migrations;
 
-use Reddogs\Doctrine\Migrations\AbstractCommandFactory;
 use Interop\Container\ContainerInterface;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand;
 use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand as StatusMigrationsCommand;
+use Reddogs\Doctrine\Migrations\StatusCommand;
+use Reddogs\Doctrine\Migrations\CommandFactory;
 
 require_once __DIR__ . '/_files/TestCommandImplementation.php';
 
-class AbstractCommandFactoryTest extends \PHPUnit_Framework_TestCase
+class CommandFactoryTest extends \PHPUnit_Framework_TestCase
 {
     private $factory;
 
     protected function setUp()
     {
-        $this->factory = $this->getMockForAbstractClass(AbstractCommandFactory::class);
+        $this->factory = new CommandFactory();
     }
 
     public function testCreateService()
     {
-        $factory = $this->getMockBuilder(AbstractCommandFactory::class)
-                        ->setMethods(['getCommandClass'])
-                        ->getMockForAbstractClass();
-        $factory->expects($this->once())
-                ->method('getCommandClass')
-                ->will($this->returnValue(TestCommandImplementation::class));
+        $factory = $this->getMockBuilder(CommandFactory::class)
+                        ->setMethods(['getMigrationsCommand'])
+                        ->getMock();
         $generateCommand = new GenerateCommand();
         $factory->expects($this->once())
                 ->method('getMigrationsCommand')
+                ->with($this->equalTo(TestCommandImplementation::class))
                 ->will($this->returnValue($generateCommand));
 
         $container = $this->getMockBuilder(ContainerInterface::class)
@@ -56,16 +56,13 @@ class AbstractCommandFactoryTest extends \PHPUnit_Framework_TestCase
                   ->with($this->equalTo(EntityManager::class))
                   ->will($this->returnValue($entityManager));
 
-
-
-
-
-        $service = $factory->__invoke($container, 'testServiceName');
+        $service = $factory->__invoke($container, TestCommandImplementation::class);
         $this->assertInstanceOf(TestCommandImplementation::class, $service);
     }
 
-    public function testGetCommandClass()
+    public function testGetMigrationsCommand()
     {
-        $this->assertNull($this->factory->getCommandClass());
+        $this->assertInstanceOf(StatusMigrationsCommand::class,
+                                $this->factory->getMigrationsCommand(StatusCommand::class));
     }
 }

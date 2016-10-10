@@ -48,11 +48,11 @@ class ModuleConfig
             ],
             'dependencies' => [
                 'factories' => [
-                    ExecuteCommand::class => ExecuteCommandFactory::class,
-                    GenerateCommand::class => GenerateCommandFactory::class,
-                    LatestCommand::class => LatestCommandFactory::class,
-                    MigrateCommand::class => MigrateCommandFactory::class,
-                    StatusCommand::class => StatusCommandFactory::class,
+                    ExecuteCommand::class => CommandFactory::class,
+                    GenerateCommand::class => CommandFactory::class,
+                    LatestCommand::class => CommandFactory::class,
+                    MigrateCommand::class => CommandFactory::class,
+                    StatusCommand::class => CommandFactory::class,
                 ]
             ]
         ];
