@@ -25,3 +25,5 @@ demos/
 extras/documentation
 /.project
 /composer.lock
+/.settings/
+/.buildpath
