@@ -6,6 +6,7 @@ use Reddogs\Doctrine\Migrations\ModuleConfig;
 use Reddogs\Doctrine\Migrations\GenerateCommand;
 use Reddogs\Doctrine\Migrations\LatestCommand;
 use Reddogs\Doctrine\Migrations\MigrateCommand;
+use Reddogs\Doctrine\Migrations\MigrateAllCommand;
 use Reddogs\Doctrine\Migrations\ExecuteCommand;
 use Reddogs\Doctrine\Migrations\StatusCommand;
 use Reddogs\Doctrine\Migrations\CommandFactory;
@@ -26,6 +27,7 @@ class ModuleConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(CommandFactory::class, $factories[GenerateCommand::class]);
         $this->assertEquals(CommandFactory::class, $factories[LatestCommand::class]);
         $this->assertEquals(CommandFactory::class, $factories[MigrateCommand::class]);
+        $this->assertEquals(CommandFactory::class, $factories[MigrateAllCommand::class]);
         $this->assertEquals(CommandFactory::class, $factories[StatusCommand::class]);
 
         $routes = $config['console_routes'];
@@ -33,6 +35,7 @@ class ModuleConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(GenerateCommand::class, $routes['mogrations:generate']['handler']);
         $this->assertEquals(LatestCommand::class, $routes['mogrations:latest']['handler']);
         $this->assertEquals(MigrateCommand::class, $routes['mogrations:migrate']['handler']);
+        $this->assertEquals(MigrateAllCommand::class, $routes['mogrations:migrate-all']['handler']);
         $this->assertEquals(StatusCommand::class, $routes['mogrations:status']['handler']);
     }
 }

@@ -35,6 +35,13 @@ class ModuleConfig
                     'short_description' => 'test route',
                     'handler' => MigrateCommand::class,
                 ],
+                'mogrations:migrate-all' => [
+                    'name' => 'mogrations:migrate-all',
+                    'route' => 'mogrations:migrate-all',
+                    'description' => 'migrate all registered module migrations',
+                    'short_description' => 'migrate all',
+                    'handler' => MigrateAllCommand::class,
+                ],
                 'mogrations:latest' => [
                     'name' => 'mogrations:latest',
                     'route' => 'mogrations:latest <moduleName>',
@@ -52,6 +59,7 @@ class ModuleConfig
                     GenerateCommand::class => CommandFactory::class,
                     LatestCommand::class => CommandFactory::class,
                     MigrateCommand::class => CommandFactory::class,
+                    MigrateAllCommand::class => CommandFactory::class,
                     StatusCommand::class => CommandFactory::class,
                 ]
             ]
