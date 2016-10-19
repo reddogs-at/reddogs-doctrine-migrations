@@ -10,6 +10,7 @@ use Reddogs\Doctrine\Migrations\MigrateAllCommand;
 use Reddogs\Doctrine\Migrations\ExecuteCommand;
 use Reddogs\Doctrine\Migrations\StatusCommand;
 use Reddogs\Doctrine\Migrations\CommandFactory;
+use Reddogs\Doctrine\Migrations\MigrateAllCommandFactory;
 
 class ModuleConfigTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +28,7 @@ class ModuleConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(CommandFactory::class, $factories[GenerateCommand::class]);
         $this->assertEquals(CommandFactory::class, $factories[LatestCommand::class]);
         $this->assertEquals(CommandFactory::class, $factories[MigrateCommand::class]);
-        $this->assertEquals(CommandFactory::class, $factories[MigrateAllCommand::class]);
+        $this->assertEquals(MigrateAllCommandFactory::class, $factories[MigrateAllCommand::class]);
         $this->assertEquals(CommandFactory::class, $factories[StatusCommand::class]);
 
         $routes = $config['console_routes'];

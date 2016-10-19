@@ -6,8 +6,10 @@ use Interop\Container\ContainerInterface;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand;
 use Doctrine\ORM\EntityManager;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand as MigrateMigrationsCommand;
 use Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand as StatusMigrationsCommand;
 use Reddogs\Doctrine\Migrations\StatusCommand;
+use Reddogs\Doctrine\Migrations\MigrateCommand;
 use Reddogs\Doctrine\Migrations\CommandFactory;
 
 require_once __DIR__ . '/_files/TestCommandImplementation.php';

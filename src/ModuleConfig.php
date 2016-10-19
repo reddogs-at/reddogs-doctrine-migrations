@@ -59,7 +59,7 @@ class ModuleConfig
                     GenerateCommand::class => CommandFactory::class,
                     LatestCommand::class => CommandFactory::class,
                     MigrateCommand::class => CommandFactory::class,
-                    MigrateAllCommand::class => CommandFactory::class,
+                    MigrateAllCommand::class => MigrateAllCommandFactory::class,
                     StatusCommand::class => CommandFactory::class,
                 ]
             ]
