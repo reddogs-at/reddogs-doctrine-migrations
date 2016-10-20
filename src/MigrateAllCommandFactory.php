@@ -7,9 +7,11 @@
  */
 namespace Reddogs\Doctrine\Migrations;
 
+use Doctrine\DBAL\Migrations\Configuration\Configuration;
+use Doctrine\DBAL\Migrations\Migration;
+use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
-use Reddogs\Doctrine\Migrations\MigrateCommand;
 
 class MigrateAllCommandFactory implements FactoryInterface
 {
@@ -24,9 +26,16 @@ class MigrateAllCommandFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $config = $container->get('config');
-        return new MigrateAllCommand(
-            $container->get(MigrateCommand::class),
-            $config['doctrine']['reddogs_doctrine_migrations']
-        );
+        $connection = $container->get(EntityManager::class)->getConnection();
+        $configurations = [];
+        $migrations = [];
+        foreach ($config['doctrine']['reddogs_doctrine_migrations'] as $key => $moduleConfig) {
+            $configurations[$key] = new Configuration($connection);
+            $configurations[$key]->setMigrationsTableName($moduleConfig['table_name']);
+            $configurations[$key]->setMigrationsDirectory($moduleConfig['directory']);
+            $configurations[$key]->setMigrationsNamespace($moduleConfig['namespace']);
+            $migrations[$key] = new Migration($configurations[$key]);
+        }
+        return new MigrateAllCommand($configurations, $migrations);
     }
 }

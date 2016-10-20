@@ -12,53 +12,65 @@ use ZF\Console\Route;
 
 class MigrateAllCommand
 {
-    /**
-     * Migrate command
-     *
-     * @var MigrateCommand
-     */
-    private $migrateCommand;
 
     /**
-     * Migrations config 
+     * Configurations
      * 
      * @var array
      */
-    private $migrationsConfig;
-
-    public function __construct(MigrateCommand $migrateCommand, array $migrationsConfig)
-    {
-        $this->migrateCommand = $migrateCommand;
-        $this->migrationsConfig = $migrationsConfig;
-    }
+    private $configurations;
 
     /**
-     * Get migrate command
-     *
-     * @return MigrateCommand
+     * Migrations
+     * 
+     * @var array
      */
-    public function getMigrateCommand()
-    {
-        return $this->migrateCommand;
-    }
+    private $migrations;
 
     /**
-     * Get migrations config 
-     *
-     * @return array
+     * Constructor
+     * 
+     * @param array $configurations
+     * @param array $migrations 
      */
-    public function getMigrationsConfig()
-    {
-        return $this->migrationsConfig;
-    }
+     public function __construct(array $configurations, array $migrations)
+     {
+         $this->configurations = $configurations;
+         $this->migrations = $migrations;
+     }
 
+     /**
+      * Get configurations
+      *
+      * return array
+      */
+     public function getConfigurations()
+     {
+         return $this->configurations;
+     }
+
+     /**
+      * Get migrations
+      * 
+      * @return array
+      */
+     public function getMigrations()
+     {
+         return $this->migrations;
+     }
+
+    /**
+     * Invoke 
+     *
+     * @param Route $route
+     * @param AdapterInterface $console
+     */
     public function __invoke(Route $route, AdapterInterface $console)
     {
-        foreach ($this->getMigrationsConfig() as $key => $params)
-        {
-            $migrateCommand = $this->getMigrateCommand();
-            $migrateRoute = new Route('migrations:migrate', 'migrations:migrate ' . $key);
-            $migrateCommand($migrateRoute, $console);
+        $migrations = $this->getMigrations();
+        foreach($this->getConfigurations() as $key => $configuration) {
+            $configuration->createMigrationTable();
+            $migrations[$key]->migrate();
         }
     }
 }

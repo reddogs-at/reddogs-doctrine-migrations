@@ -2,58 +2,51 @@
 
 namespace ReddogsTest\Doctrine\Migrations;
 
-use Reddogs\Doctrine\Migrations\MigrateCommand;
 use Reddogs\Doctrine\Migrations\MigrateAllCommand;
 use Zend\Console\Adapter\AdapterInterface;
 use ZF\Console\Route;
 
 class MigrateAllCommandTest extends \PHPUnit_Framework_TestCase
 {
-    private $command, $migrateCommand, $migrationsConfig;
+    private $configurations, $migrations, $configuration, $migration;
 
     protected function setUp()
     {
-        $this->migrateCommand = $this->getMockBuilder(MigrateCommand::class)
+        $this->configuration = $this->getMockBuilder(Configuration::class)
             ->disableOriginalConstructor()
-            ->setMethods(['__invoke'])
+            ->setMethods(['createMigrationTable'])
+            ->getMock();;
+        $this->configurations = ['testKey' => $this->configuration];
+
+        $this->migration = $this->getMockBuilder(Migration::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['migrate'])
             ->getMock();
+        $this->migrations = ['testKey' => $this->migration];
 
-        $this->migrationsConfig = [
-            'testKey1' => [],
-            'testKey2' => [],
-        ];
-
-        $this->command = new MigrateAllCommand($this->migrateCommand, $this->migrationsConfig);
+        $this->command = new MigrateAllCommand($this->configurations, $this->migrations);
     }
 
-    public function testGetMigrateCommand()
+    public function testGetConfigurations()
     {
-        $this->assertSame($this->migrateCommand, $this->command->getMigrateCommand());
+        $this->assertSame($this->configurations, $this->command->getConfigurations());
     }
 
-    public function testGetMigrationsConfig()
+    public function testGetMigrations()
     {
-        $this->assertSame($this->migrationsConfig, $this->command->getMigrationsConfig());
+        $this->assertSame($this->migrations, $this->command->getMigrations());
     }
 
     public function testInvoke()
     {
-        $route = new Route('mogrations:migrate-all', 'mogrations:migrate-all');
-        $console = $this->createMock(AdapterInterface::class);
+        $this->configuration->expects($this->once())
+            ->method('createMigrationTable');
 
-        $migrateRoute1 = new Route('migrations:migrate', 'migrations:migrate testKey1');
-        $migrateRoute2 = new Route('migrations:migrate', 'migrations:migrate testKey2');
+        $this->migration->expects($this->once())
+            ->method('migrate');
 
-        $this->migrateCommand->expects($this->at(0))
-            ->method('__invoke')
-            ->with($this->equalTo($migrateRoute1),
-                   $this->equalTo($console));
-
-        $this->migrateCommand->expects($this->at(1))
-            ->method('__invoke')
-            ->with($this->equalTo($migrateRoute2),
-                   $this->equalTo($console));
-
-        $this->command->__invoke($route, $console);
+        $route = new Route('mogrations:migrate-all', 'mogrations:migrate-all <moduleName>');
+        $adapter = $this->createMock(AdapterInterface::class);
+        $this->command->__invoke($route, $adapter);
     }
 }

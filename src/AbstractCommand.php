@@ -93,7 +93,6 @@ abstract class AbstractCommand
         $application->add($migrationsCommand);
 
         $input = new StringInput($this->getInputCommand($route));
-
         $application->run($input, $this->getOutput());
     }
 
