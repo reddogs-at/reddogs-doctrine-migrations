@@ -7,6 +7,7 @@
  */
 namespace Reddogs\Doctrine\Migrations;
 
+use Doctrine\DBAL\Migrations\OutputWriter;
 use Zend\Console\Adapter\AdapterInterface;
 use ZF\Console\Route;
 
@@ -70,7 +71,14 @@ class MigrateAllCommand
         $migrations = $this->getMigrations();
         foreach($this->getConfigurations() as $key => $configuration) {
             $configuration->createMigrationTable();
-            $migrations[$key]->migrate();
+            $outputWriter = new OutputWriter(function($message) use ($console) {
+                return $console->writeLine($message);
+            });
+            $configuration->setOutputWriter($outputWriter);
+            $result = $migrations[$key]->migrate();
+            if (empty($result)) {
+                $console->writeLine(sprintf('module \'%1$s\': no migrations to execute', $key));
+            }
         }
     }
 }
