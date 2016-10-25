@@ -48,4 +48,35 @@ class ModuleConfig
 (see section [Custom Configuration](http://docs.doctrine-project.org/projects/doctrine-migrations/en/latest/reference/custom_configuration.html)
 of [Doctrine Migrations](http://docs.doctrine-project.org/projects/doctrine-migrations) documentation)
 
-* namespace: 
+* `namespace`: your module namespace
+* `directory`: path to migration classes
+* `table_name`: name of the module migration table
+
+## Usage
+
+### Execute single module migration up or down
+
+* Simple: `/path/to/script.php mogrations:execute <moduleName> [--version=]`
+* All paramenters: `/path/to/script.php mogrations:execute <moduleName> [--version=] [--write-sql] [--dry-run] [--up] [--down] [--query-time] [--quiet|-q] [--no-interaction|-n] [--verbose|-v|-vv|-vvv]`
+
+
+### Generate new blank module migration class
+
+* Simple: `/path/to/script.php mogrations:generate <moduleName>`
+* All parameters: `mogrations:generate <moduleName> [--quiet|-q] [--no-interaction|-n] [--verbose|-v|-vv|-vvv]`
+
+### Output the latest module migration version number 
+* All parameters: `/path/to/script.php mogrations:latest <moduleName>`
+
+### Execute a module migration to a specified version or the latest available version
+
+* Simple: `/path/to/script.php mogrations:migrate <moduleName>`
+* All parameters: `mogrations:migrate <moduleName> [--version=] [--dry-run] [--write-sql] [--query-time] [--quiet|-q] [--no-interaction|-n] [--verbose|-v|-vv|-vvv]`
+
+### Migrate all registered module migrations
+
+* All parameters: `mogrations:migrate-all`
+
+### View the status of a set of module migrations
+
+* All Parameters: `mogrations:status <moduleName>`

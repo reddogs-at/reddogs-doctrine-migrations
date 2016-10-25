@@ -37,7 +37,7 @@ class ModuleConfig
                     'name' => 'mogrations:migrate',
                     'route' => 'mogrations:migrate <moduleName> [--version=] [--dry-run] [--write-sql] [--query-time] ' .
                                '[--quiet|-q] [--no-interaction|-n] [--verbose|-v|-vv|-vvv]',
-                    'short_description' => 'Execute a module migration to a specified version or the latest available version.',
+                    'short_description' => 'Execute a module migration to a specified version or the latest available version',
                     'handler' => MigrateCommand::class,
                 ],
                 'mogrations:migrate-all' => [
