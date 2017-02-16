@@ -7,14 +7,15 @@ use Reddogs\Doctrine\Migrations\MigrateAllCommand;
 use Reddogs\Doctrine\Migrations\MigrateAllCommandFactory;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
+use PHPUnit\Framework\TestCase;
 
-class MigrateAllCommandFactoryTest extends \PHPUnit_Framework_TestCase
+class MigrateAllCommandFactoryTest extends TestCase
 {
     private $factory;
 
     protected function setUp()
     {
-        $this->factory = new MigrateAllCommandFactory; 
+        $this->factory = new MigrateAllCommandFactory;
     }
 
     public function testInvoke()
@@ -48,15 +49,15 @@ class MigrateAllCommandFactoryTest extends \PHPUnit_Framework_TestCase
         $entityManager->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($connection));
-        
+
 
         $container->expects($this->at(1))
             ->method('get')
             ->with($this->equalTo(EntityManager::class))
             ->will($this->returnValue($entityManager));
-        
+
         $service = $this->factory->__invoke($container, MigrateAllCommand::class);
-        
+
         $this->assertInstanceOf(MigrateAllCommand::class, $service);
         $configurations = $service->getConfigurations();
         $this->assertCount(1, $configurations);

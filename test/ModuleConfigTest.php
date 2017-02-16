@@ -11,8 +11,9 @@ use Reddogs\Doctrine\Migrations\ExecuteCommand;
 use Reddogs\Doctrine\Migrations\StatusCommand;
 use Reddogs\Doctrine\Migrations\CommandFactory;
 use Reddogs\Doctrine\Migrations\MigrateAllCommandFactory;
+use PHPUnit\Framework\TestCase;
 
-class ModuleConfigTest extends \PHPUnit_Framework_TestCase
+class ModuleConfigTest extends TestCase
 {
     public function testInvoke()
     {

@@ -3,8 +3,9 @@
 namespace Reddogs\Doctrine\Migrations;
 
 use ZF\Console\Route;
+use PHPUnit\Framework\TestCase;
 
-class GenerateCommandTest extends \PHPUnit_Framework_TestCase
+class GenerateCommandTest extends TestCase
 {
     private $command, $route;
 

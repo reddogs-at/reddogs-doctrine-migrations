@@ -11,10 +11,11 @@ use Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand as StatusMigrat
 use Reddogs\Doctrine\Migrations\StatusCommand;
 use Reddogs\Doctrine\Migrations\MigrateCommand;
 use Reddogs\Doctrine\Migrations\CommandFactory;
+use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/_files/TestCommandImplementation.php';
 
-class CommandFactoryTest extends \PHPUnit_Framework_TestCase
+class CommandFactoryTest extends TestCase
 {
     private $factory;
 

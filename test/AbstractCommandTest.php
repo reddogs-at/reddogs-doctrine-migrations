@@ -9,8 +9,9 @@ use ZF\Console\Route;
 use Zend\Console\Adapter\AdapterInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\StringInput;
+use PHPUnit\Framework\TestCase;
 
-class AbstractCommandTest extends \PHPUnit_Framework_TestCase
+class AbstractCommandTest extends TestCase
 {
 
     private $command, $application, $migrationsCommand, $configuration, $migrationsConfig, $output;

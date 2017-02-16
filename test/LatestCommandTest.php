@@ -5,8 +5,9 @@ namespace ReddogsTest\Doctrine\Migrations;
 use Reddogs\Doctrine\Migrations\LatestCommand;
 use Reddogs\Doctrine\Migrations\ModuleConfig;
 use ZF\Console\Route;
+use PHPUnit\Framework\TestCase;
 
-class LatestCommandTest extends \PHPUnit_Framework_TestCase
+class LatestCommandTest extends TestCase
 {
     private $command, $route;
 

@@ -8,8 +8,9 @@ use Doctrine\DBAL\Migrations\OutputWriter;
 use Reddogs\Doctrine\Migrations\MigrateAllCommand;
 use Zend\Console\Adapter\AdapterInterface;
 use ZF\Console\Route;
+use PHPUnit\Framework\TestCase;
 
-class MigrateAllCommandTest extends \PHPUnit_Framework_TestCase
+class MigrateAllCommandTest extends TestCase
 {
     private $configurations, $migrations, $configuration, $migration;
 
